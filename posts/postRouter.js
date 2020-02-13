@@ -57,19 +57,15 @@ function validatePostId(req, res, next) {
   // do your magic!
 }
 
-function validatePost() {
-  return (req, res, next) => {
-    resource = {
-      text: req.body.text
-    };
+// function validatePost(req, res, next) {
+//   const text = { ...req.body, post_id: req.params.id };
 
-    if (!req.body.text) {
-      return res.status(404).json({ message: "data missing" });
-    } else {
-      req.text = resource;
-      next();
-    }
-  };
-}
+//   if (!req.body.text) {
+//     return res.status(404).json({ message: "data missing" });
+//   } else {
+//     req.text = text;
+//     next();
+//   }
+// }
 
 module.exports = router;

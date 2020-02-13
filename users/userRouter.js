@@ -15,9 +15,10 @@ router.post("/", validateUser, (req, res) => {
 });
 
 router.post("/:id/posts", validatePost, validateUserId, (req, res) => {
+  console.log(req.text);
   posts
     .insert(req.text)
-    .then(data => res.json(data))
+    .then(data => res.status(201).json(data))
     .catch(error => res.status(500).json({ error: "post cant be made" }));
   // do your magic!
 });
@@ -94,18 +95,14 @@ function validateUser(req, res, next) {
 
 function validatePost(req, res, next) {
   // do your magic!
-  return (req, res, next) => {
-    resource = {
-      text: req.body.text,
-      user_id: req.params.id
-    };
-    if (!req.body.text) {
-      return res.status(404).json({ message: "missing" });
-    } else {
-      req.text = resource;
-      next();
-    }
-  };
+  const user_id = req.params.id;
+  const text = { ...req.body, user_id };
+  if (!req.body.text) {
+    return res.status(404).json({ message: "missing" });
+  } else {
+    req.text = text;
+    next();
+  }
 }
 
 module.exports = router;
